@@ -1,6 +1,20 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import { DM_Sans } from "next/font/google";
+import { Caveat_Brush } from "next/font/google";
 import "./globals.css";
 
+
+const caveatBrush=Caveat_Brush({
+  variable: "--font-caveat-brush",
+  weight:'400',
+  subsets:["latin"]
+
+})
+
+const dmSans=DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"]
+})
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -20,7 +34,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${dmSans.variable} ${caveatBrush.variable} font-sans antialiased text-text-primary dark:text-text-secondary w-full`}
       >
         {children}
       </body>

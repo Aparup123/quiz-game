@@ -1,103 +1,66 @@
+import Navbar from "@/components/navbar";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import heroRight from "../../public/assets/hero-right.svg"
+import heroLeft from "../../public/assets/hero-left.svg"
+import heroMiddle from "../../public/assets/hero-middle.svg"
+import { features } from "./data";
+import Footer from "@/components/footer";
+
+
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="w-full">
+      
+    <div className="px-10 hero pt-2 bg-hero w-full">
+      <div className=" py-5 hero-container mx-auto lg:max-w-4xl">
+      <Navbar/>
+      <section className="hero-content text-center">
+        <h1 className="text-4xl font-bold text-center mt-8">Brush up your knowledge <br/> through the interactive quiz</h1>
+        <div className="mt-4 font-caveat-brush">
+          <Button className="m-2 text-2xl">Play</Button>
+          <Button variant="secondary" className="text-2xl">Learn how to play</Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div className="hero-images flex justify-between ">
+        <Image src={heroLeft} alt="Giving certificate" width={200} height={200} className="hidden sm:block"/>
+        <Image src={heroMiddle} alt="Question" width={200} height={200} className="hidden sm:block"/>
+        <Image src={heroRight} alt="person reading a book" width={100} height={200} className="hidden sm:block"/>
+        </div>
+
+        
+      </section>
+      </div>
+    </div>
+    <div className="feature-section py-6 w-full">
+      <div className="px-10 py-5 feature-container mx-auto lg:max-w-4xl">
+      <div className="features flex flex-col gap-10">
+          <div key={features[0].title} className="feature-card flex justify-between gap-10">
+            <Image src={features[0].image} alt={features[0].alt} height={200} width={200} className="hidden md:block" />
+            <div>
+            <h2 className="text-2xl font-bold">{features[0].title}</h2>
+            <p className="text-lg">{features[0].content}</p>
+            </div>
+          </div>
+          <div key={features[1].title} className="feature-card flex justify-between gap-10">
+            <div>
+            <h2 className="text-2xl font-bold">{features[1].title}</h2>
+            <p className="text-lg">{features[1].content}</p>
+            </div>
+            <Image src={features[1].image} alt={features[1].alt} height={200} width={200} className="hidden md:block"/>
+          </div>
+          <div key={features[2].title} className="feature-card flex justify-between gap-10">
+            <Image src={features[2].image} alt={features[2].alt} height={200} width={200} className="hidden md:block"/>
+            <div>
+            <h2 className="text-2xl font-bold">{features[2].title}</h2>
+            <p className="text-lg">{features[2].content}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <Footer/>
     </div>
   );
 }
