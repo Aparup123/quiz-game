@@ -11,11 +11,12 @@ import Footer from "@/components/footer";
 
 export default function Home() {
   return (
-    <div className="w-full">
-      
+    <div className="w-full"> 
     <div className="px-10 hero pt-2 bg-hero w-full">
       <div className=" py-5 hero-container mx-auto lg:max-w-4xl">
+      <div className="px-2">
       <Navbar/>
+      </div>
       <section className="hero-content text-center">
         <h1 className="text-4xl font-bold text-center mt-8">Brush up your knowledge <br/> through the interactive quiz</h1>
         <div className="mt-4 font-caveat-brush">
