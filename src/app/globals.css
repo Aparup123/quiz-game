@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+input[type='radio'] {
+  accent-color: var(--color-primary);
+}
+
 @theme inline {
   --color-text-primary:#2B2754;
   --color-text-secondary:#FFFFFF;
