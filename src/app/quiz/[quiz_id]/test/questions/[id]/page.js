@@ -11,13 +11,14 @@ import {useEffect, useState } from 'react'
 export default function Quiz() {
     const router=useRouter()
     const currentQuestion=parseInt(useParams().id)
+    const params=useParams()
+    const quizId=parseInt(useParams().quiz_id)
     const questions=useQuestions((state)=>state.questions)
     const updateOptions=useQuestions((state)=>state.updateOptions)
     const updateStatus=useQuestions((state)=>state.updateStatus)
     const [selectedOptions, setSelectedOptions]=useState([])
     const [question, setQuestion]=useState({})
     const [isLoading, setIsLoading]=useState(true)
-
     useEffect(() => {
         setIsLoading(true)
         if (questions.length) {
@@ -52,7 +53,7 @@ export default function Quiz() {
             if(currentQuestion==questions.length){
                 router.push("/quiz/1")
             }else{
-                router.push(`/quiz/${currentQuestion + 1}`)
+                router.push(`/quiz/${quizId}/test/questions/${currentQuestion + 1}`)
             }
         } finally {
             setIsLoading(false)
