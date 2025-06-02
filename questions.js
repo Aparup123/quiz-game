@@ -98,12 +98,12 @@ export const questions=[{
 },
 {
     id: 8,
-    question: "Which is the smallest prime number?",
+    question: "Photosynthesis is a process used by plants to convert light energy into chemical energy. It takes place mainly in the chloroplasts using chlorophyll. Which of the following gases is absorbed during photosynthesis to produce glucose and oxygen?",
     options: [
-        { id: 1, content: "1" },
-        { id: 2, content: "2" },
-        { id: 3, content: "3" },
-        { id: 4, content: "0" },
+        { id: 1, content: "Carbon Dioxide – Absorbed by plants for glucose production" },
+        { id: 2, content: "Oxygen - Released during photosynthesis, not absorbed" },
+        { id: 3, content: "Nitrogen – Essential for growth but not for photosynthesis" },
+        { id: 4, content: "Hydrogen – Not directly absorbed from the air" },
     ],
     marked_for_rev: false,
     attempted: false,
