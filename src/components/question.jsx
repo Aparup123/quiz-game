@@ -7,10 +7,10 @@ export default function Question({ question, selectedOptions, setSelectedOptions
     return (
         
         <div>
-            <p className="font-medium mb-2">{question?.id}. {question?.question}</p>
+            <p className="font-medium my-3 border-gray-500 border-1 shadow-lg max-w-5xl p-3 rounded-lg min-h-[5rem]">{question?.id}. {question?.question}</p>
             <ul className='my-2'>
                 {question?.options?.map((option)=><li key={option.id}
-                    className='space-x-1'
+                    className='space-x-1 border-1 border-gray-400 shadow-lg rounded-lg p-1 px-2 my-2 w-[20rem] '
                 >
                     <input
                         type='radio'
@@ -20,7 +20,7 @@ export default function Question({ question, selectedOptions, setSelectedOptions
                         onChange={(e)=>{setSelectedOptions([parseInt(e.target.value)])
                             e.target.checked=true
                         }}
-                        className='bg-primary'
+                        className='bg-primary '
                     >
                     </input>
 

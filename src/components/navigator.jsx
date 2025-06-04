@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import ConfirmSubmit from './confirmSubmit'
 
-export default function Navigator({questions, currentQuestion}) {
+export default function Navigator({questions, currentQuestion,quizId}) {
   const buttonStyle={
     base:'p-2 flex items-center justify-center rounded text-white ',
     notAttempted:"bg-red-400 hover:bg-red-500",
@@ -17,13 +17,13 @@ export default function Navigator({questions, currentQuestion}) {
     }
 
   return (
-    <div>
-    <div className='grid grid-cols-4 gap-2 m-4 '>
+    <div className='flex flex-col justify-between h-[25rem]'>
+    <div className='grid grid-cols-4 gap-2 m-4 overflow-auto'>
         {questions.map((q) => 
 
             <Link 
                 key={q.id} 
-                href={`/quiz/${q.id}`} 
+                href={`/quiz/${quizId}/test/questions/${q.id}`} 
                 variant={currentQuestion==q.id?'blue':q?.selectedOptions?.length?"success":'destructive'}
                 className={currentQuestion==q.id?buttonStyle.base+buttonStyle.current:buttonStyle.base+buttonStyle[q.status]}
                 >
@@ -33,7 +33,7 @@ export default function Navigator({questions, currentQuestion}) {
         
 
     </div>
-    <div>
+    <div className='flex justify-center '>
           <ConfirmSubmit/>
     </div>
     </div>

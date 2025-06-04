@@ -24,18 +24,18 @@ import { useState } from "react"
         return (
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant="outline" onClick={calculateAttempt}>Show Dialog</Button>
+              <Button className={`mt-5 border-b-2 border-gray-800`} variant="outline" onClick={calculateAttempt}>Show Dialog</Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you sure you want to submit?</AlertDialogTitle>
                 <AlertDialogDescription>
                     <div className="flex justify-around text-black ">
-                        <div className="border-2 rounded flex">
-                            <p className="border-r-2 bg-green-600 p-2">Attempted</p>{attempted}
+                        <div className="border-2 rounded border-b-green-800 pr-2 flex gap-1 mt-2">
+                            <p className=" rounded bg-green-600 p-2  ">Attempted</p>{attempted}
                         </div>
-                        <div className="border-2 rounded flex">
-                            <p className="border-r-2 bg-red-600">Unattempted</p>{questions.length-attempted}
+                        <div className="border-2 rounded border-b-red-800 pr-2 flex gap-1 mt-2">
+                            <p className="rounded bg-red-500 p-2">Unattempted</p>{questions.length-attempted}
                         </div>
                         
                     </div>
