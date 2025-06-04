@@ -60,13 +60,13 @@ export default function Quiz() {
         }
     }
   return (
-    <div className='lg:max-w-4xl mx-auto px-10 mt-5'>
+    <div className='lg:max-w-4xl mx-auto px-5 mt-5'>
         <Navbar/>
         <div className='flex justify-center lg:mt-15 mt-10 gap-2 border-2 border-gray-400 shadow-xl/20 h-[32rem]'>
             
-            <div className='flex-2 p-8'>
+            <div className='flex-2 p-4 sm:p-8'>
 
-                <div className='overflow-auto h-[20rem] md:h-[24rem] pr-3'>
+                <div className='overflow-auto h-[20rem] md:h-[24rem] '>
                     <h1 className='font-medium text-2xl mb-3'>Question : {currentQuestion}</h1>
 
                     <Question 

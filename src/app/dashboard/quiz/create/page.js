@@ -42,7 +42,7 @@ export default function CreateGame() {
 
   return (
     <div className='container lg:max-w-4xl mx-auto px-10 overflow-hidden pt-5 md:text-4xl'>
-      <Navbar/>
+      <h1>Select Topic and options</h1>
       <div >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(createGame)} className='grid md:grid-cols-2 gap-5 mt-5 lg:mt-10' >
