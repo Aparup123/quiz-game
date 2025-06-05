@@ -129,3 +129,5 @@ input[type='radio'] {
     @apply bg-background text-foreground;
   }
 }
+
+/* HTML: <div class="loader"></div> */

@@ -1,24 +1,28 @@
 "use client"
-import Navbar from '@/components/navbar'
-import React from 'react'
+import React, { useState } from 'react'
 import {useForm} from "react-hook-form"
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form"
 import { Input } from '@/components/ui/input';
 import z from "zod"
 import {zodResolver} from "@hookform/resolvers/zod"
 import { Button } from '@/components/ui/button'
-import {Slider} from '@/components/ui/slider'
 import { ValueSlider } from '@/components/ui/value-slider'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { toast } from 'sonner'
+import axios from 'axios'
+import { useLoader } from '@/store/loadingStore'
+import Loader from '@/components/loader'
+import { useRouter } from 'next/navigation';
 export default function CreateGame() {
-
+  const setLoading=useLoader((state)=>state.setLoading)
+  const router=useRouter()
   const formSchema=z.object({
     topic:z.string().nonempty(),
     duration:z.string().min(5),
-    difficulty:z.number().min(1).max(100),
-    questionType:z.string().length(3),
-    totalQuestions:z.string().min(1),
-    score:z.string().min(1)
+    difficulty:z.number().min(1).max(10),
+    type:z.enum(["mcq","msq","boolean","misc"]),
+    numberOfQuestions:z.string().min(1),
+    totalPoints:z.string().min(1)
     
   })
 
@@ -27,23 +31,40 @@ export default function CreateGame() {
     defaultValues:{
       topic:"",
       duration:"",
-      difficulty:30,
-      questionType:"mcq",
-      totalQuestions:"1",
-      score:"1"
+      difficulty:3,
+      type:"mcq",
+      numberOfQuestions:"1",
+      totalPoints:"1"
     }
   });
 
 
 
   const createGame=(values)=>{
-    console.log(values)
+    const data={...values, difficulty:parseInt(values.difficulty), numberOfQuestions:parseInt(values.numberOfQuestions), totalPoints:parseInt(values.totalPoints)}
+    console.log(data)
+    setLoading(true)
+    axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/`, data, {withCredentials:true})
+    .then((res)=>{
+      console.log(res.data)
+      toast.success("Quiz created successfully!")
+      form.reset()
+      router.push(`/dashboard/quiz/pending`)
+    })
+    .catch((err)=>{
+      console.error(err)
+      toast.error("Failed to create quiz, please try again.")
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
   }
 
   return (
     <div className='container lg:max-w-4xl mx-auto px-10 overflow-hidden pt-5 md:text-4xl'>
       <h1>Select Topic and options</h1>
       <div >
+      
         <Form {...form}>
           <form onSubmit={form.handleSubmit(createGame)} className='grid md:grid-cols-2 gap-5 mt-5 lg:mt-10' >
             <FormField
@@ -80,8 +101,8 @@ export default function CreateGame() {
                   <FormLabel>Difficulty</FormLabel>
                   <FormControl>
                     <ValueSlider
-                      defaultValue={[30]}
-                      max={100}
+                      defaultValue={[3]}
+                      max={10}
                       step={1}
                       onValueChange={(value) => field.onChange(value[0])}
                       value={[field.value]}
@@ -94,7 +115,7 @@ export default function CreateGame() {
             />
             <FormField
               control={form.control}
-              name="questionType"
+              name="type"
               render={({field})=>
                 <FormItem>
                   <FormLabel>Question type</FormLabel>
@@ -108,7 +129,8 @@ export default function CreateGame() {
                         <SelectGroup>
                           <SelectItem default value="mcq">MCQ</SelectItem>
                           <SelectItem value="msq">MSQ</SelectItem>
-                          <SelectItem value="mix">Misleneous</SelectItem>
+                          <SelectItem value="boolean">Boolean</SelectItem>
+                          <SelectItem value="misc">Misleneous</SelectItem>
                         </SelectGroup>
                       </SelectContent>
                     </Select>
@@ -117,7 +139,7 @@ export default function CreateGame() {
             />
             <FormField
               control={form.control}
-              name="totalQuestions"
+              name="numberOfQuestions"
               render={({field})=>
                 <FormItem>
                   <FormLabel>No of questions</FormLabel>
@@ -130,10 +152,10 @@ export default function CreateGame() {
             />
             <FormField
               control={form.control}
-              name="score"
+              name="totalPoints"
               render={({field})=>
                 <FormItem>
-                  <FormLabel>Score</FormLabel>
+                  <FormLabel>totalPoints</FormLabel>
                   <FormControl>
                     <Input type="number" min={1} {...field}/>
                   </FormControl>

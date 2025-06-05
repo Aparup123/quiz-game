@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { DM_Sans } from "next/font/google";
 import { Caveat_Brush } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 
 const caveatBrush=Caveat_Brush({
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
         className={`${dmSans.variable} ${caveatBrush.variable} font-sans antialiased text-text-primary dark:text-text-secondary w-full`}
       >
         {children}
+        <Toaster/>
       </body>
     </html>
   );

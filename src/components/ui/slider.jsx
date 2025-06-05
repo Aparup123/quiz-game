@@ -10,7 +10,7 @@ function Slider({
   defaultValue,
   value,
   min = 0,
-  max = 100,
+  max = max,
   ...props
 }) {
   const _values = React.useMemo(() =>
