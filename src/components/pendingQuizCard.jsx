@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-export default function PendingQuizCard({ quiz }) {
+export default function PendingQuizCard({ quiz, startAttempt }) {
     return (<Card className="flex flex-col justify-center gap-1">
         <CardHeader>
             <CardTitle>{quiz.topic}</CardTitle>
@@ -17,7 +17,7 @@ export default function PendingQuizCard({ quiz }) {
             </ul>
         </CardContent>
         <CardFooter className="inline-block">
-            <CardAction ><Button className="float-right">Start</Button></CardAction>
+            <CardAction ><Button className="float-right" onClick={()=>startAttempt("id")}>Start</Button></CardAction>
         </CardFooter>
     </Card>
     )

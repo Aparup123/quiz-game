@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import AttemptCard from "@/components/attemptCard";
 
 export default function AttemptedQuizzes() {
   const [attempts, setAttempts] = useState([]);
@@ -17,12 +18,9 @@ export default function AttemptedQuizzes() {
     return <div>NO QUIZ ATTEMPTED</div>
   }
   return (
-    <div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6">
       {attempts.map((a) => {
-        return <div key={a._id} className="quiz-attempt border-2 m-2">
-          <h2>{a.quizTemplateId.topic}</h2>
-          <p>{a.attemptNumber}</p>
-        </div>
+        return <AttemptCard key={a._id} attempt={a}/>
       })}
     </div>
   )
