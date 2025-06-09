@@ -4,15 +4,17 @@ import Navigator from '@/components/navigator';
 import Question from '@/components/question';
 import { Button } from '@/components/ui/button';
 import { useQuestions } from '@/store/questionStore';
-import { Loader2 } from 'lucide-react';
+import { ImportIcon, Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import {useEffect, useState } from 'react'
+import { toast } from 'sonner';
+import axios from 'axios';
 
 export default function Quiz() {
     const router=useRouter()
     const currentQuestion=parseInt(useParams().id)
     const params=useParams()
-    const quizId=parseInt(useParams().quiz_id)
+    const quizId=parseInt(useParams().quizTemplateId)
     const questions=useQuestions((state)=>state.questions)
     const updateOptions=useQuestions((state)=>state.updateOptions)
     const updateStatus=useQuestions((state)=>state.updateStatus)
@@ -20,15 +22,18 @@ export default function Quiz() {
     const [question, setQuestion]=useState({})
     const [isLoading, setIsLoading]=useState(true)
     useEffect(() => {
+        console.log("currentQuestion", currentQuestion);
+        console.log("questions", questions);
         setIsLoading(true)
         if (questions.length) {
-            setQuestion(questions.find((q) => q.id == currentQuestion))
+            setQuestion(questions.find((q) => q.order == currentQuestion))
             setIsLoading(false)
         }
     }, [currentQuestion, questions])
     
     useEffect(()=>{
-        setSelectedOptions(question.selectedOptions||[]);
+        console.log(question);
+        setSelectedOptions(question?.selectedOptions||[]);
     }, [question])
 
     if (isLoading || !questions.length || !question) {
@@ -44,21 +49,45 @@ export default function Quiz() {
         setIsLoading(true)
         try {
                 await updateOptions(currentQuestion, selectedOptions)
+                console.log(question);
                 if(selectedOptions.length){
                     await updateStatus(currentQuestion, "attempted")
                 }else{
                     await updateStatus(currentQuestion, "notAttempted")
                 }
-                setSelectedOptions([])
+                // setSelectedOptions([])
             if(currentQuestion==questions.length){
-                router.push("/quiz/1")
+                router.push(`/quiz/${quizId}/test/${params.attemptId}/questions/1`)
             }else{
-                router.push(`/quiz/${quizId}/test/questions/${currentQuestion + 1}`)
+                router.push(`/quiz/${quizId}/test/${params.attemptId}/questions/${currentQuestion + 1}`)
             }
         } finally {
             setIsLoading(false)
         }
     }
+
+
+    const submitResponse=()=>{
+        setIsLoading(true)
+        const responses=questions.filter((q)=>q.status=="attempted").map((q) => ({
+            order: q.order,
+            selectedOptions: q.selectedOptions,
+            status: q.status,
+            question: q.question._id
+        }))
+
+        axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/submit-response`, { quizAttemptId: params.attemptId, responses:responses }, { withCredentials: true })
+        .then((res)=>{
+            console.log(res.data);
+            router.push(`/dashboard/quiz/attempted`)
+            toast.success("Quiz submitted successfully!")
+        })
+        .catch((err)=>{
+            console.error(err);
+            toast.error("Error submitting quiz. Please try again.")
+        })
+    }
+
   return (
     <div className='lg:max-w-4xl mx-auto px-5 mt-5'>
         <Navbar/>
@@ -70,14 +99,15 @@ export default function Quiz() {
                     <h1 className='font-medium text-2xl mb-3'>Question : {currentQuestion}</h1>
 
                     <Question 
-                        question={question} 
+                        questionNumber={currentQuestion}
+                        question={question.question} 
                         setSelectedOptions={setSelectedOptions}
                         selectedOptions={selectedOptions}
                         />
                 </div>
 
                 <div className='flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 mt-4 '>
-                    {(currentQuestion!=1) && <Button onClick={()=>{router.push(`/quiz/${quizId}/test/questions/${currentQuestion-1}`)}}>{`<-`} Prev</Button>}
+                    {(currentQuestion!=1) && <Button onClick={()=>{router.push(`/quiz/${quizId}/test/${params.attemptId}/questions/${currentQuestion - 1}`)}}>{`<-`} Prev</Button>}
 
                     {(selectedOptions?.length!=0 && <Button  variant="link" size="sm" onClick={()=>{setSelectedOptions([])}}>Clear response</Button>)}
                     
@@ -92,8 +122,12 @@ export default function Quiz() {
 
                 <h1 className='font-normal text-xl pb-6 text-center'>Questions</h1>
 
-                <Navigator questions={questions} 
-                    currentQuestion={currentQuestion}  quizId={quizId}
+                <Navigator 
+                    questions={questions} 
+                    currentQuestion={currentQuestion}
+                    quizId={quizId}
+                    attemptId={params.attemptId}
+                    submitResponse={submitResponse}
                 />
             </div>
         </div>

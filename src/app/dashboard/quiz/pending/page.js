@@ -4,11 +4,13 @@ import axios from "axios";
 import { useLoader } from "@/store/loadingStore";
 import PendingQuizCard from "@/components/pendingQuizCard";
 import { useRouter } from "next/navigation";
+import { useQuestions } from "@/store/questionStore";
 
 export default function PendingQuizzes() {
     const [pendingQuizzes, setPendingQuizzes] = useState([]);
     const router=useRouter();
     const setLoading=useLoader((state)=>state.setLoading);
+    const setQuestions=useQuestions((state)=>state.setQuestions);
     useEffect(() => {
         axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/pending`, { withCredentials: true })
         .then((res)=>{
@@ -21,18 +23,28 @@ export default function PendingQuizzes() {
     }, []);
 
     const startAttempt=(quizTemplateId)=>{
-        // setLoading(true);
-        // axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/attempt`, { quizTemplateId}, { withCredentials: true })
-        //     .then((res) => {
-        //         setLoading(false);
-        //         window.location.href = `/quiz/${res.data.quizId}`;
-        //     })
-        //     .catch((err) => {
-        //         setLoading(false);
-        //         console.error(err);
-        //     });
-        // window.location.href = `/quiz/${quizTemplateId}`;
-        router.push(`/quiz/${quizTemplateId}`);
+        setLoading(true);
+        axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/attempt`, { quizTemplateId}, { withCredentials: true })
+            .then((res) => {
+                console.log(res.data);
+                const attemptId = res.data.quizAttempt._id;
+                const questions=res.data.questions.map((q)=>({...q, status: "notAttempted"}))
+                setQuestions(questions);
+
+                router.push(`/quiz/${quizTemplateId}/test/${attemptId}/questions/1`);
+            })
+            .catch((err) => {
+                console.error(err);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+
+        // router.push(`/quiz/${quizTemplateId}`);
+    }
+
+    if (!pendingQuizzes || pendingQuizzes.length === 0) {
+        return <div className='text-center text-2xl'>No pending quizzes found.</div>;
     }
     return (
 
