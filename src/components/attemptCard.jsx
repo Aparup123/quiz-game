@@ -1,6 +1,8 @@
 import React from 'react'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
+import ResultList from './resultList';
 
 export default function AttemptCard({ attempt }) {
     const { quizTemplate } = attempt;
@@ -20,9 +22,18 @@ export default function AttemptCard({ attempt }) {
                 </ul>
             </CardContent>
             <CardFooter >
-                <CardAction className="flex justify-between gap-2">
-                    <Button>Attempt Again</Button>
-                    <Button>View results</Button>
+                <CardAction className="flex justify-between gap-2 flex-wrap">
+                    <Button variant="link">Attempt Again</Button>
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button >View results</Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-7xl m-2 h-[80vh] overflow-y-auto px-8 py-10">
+                            <ResultList
+                                quizTemplateId={attempt._id}
+                            />
+                        </DialogContent>
+                    </Dialog>
                 </CardAction>
             </CardFooter>
         </Card>

@@ -131,3 +131,16 @@ input[type='radio'] {
 }
 
 /* HTML: <div class="loader"></div> */
+
+.result-table{
+  @apply border-2 
+  
+}
+
+.result-table th{
+  @apply bg-purple-100
+}
+
+.result-table th, td{
+  @apply p-2 border-2
+}
