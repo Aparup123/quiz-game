@@ -5,12 +5,14 @@ import { useLoader } from "@/store/loadingStore";
 import PendingQuizCard from "@/components/pendingQuizCard";
 import { useRouter } from "next/navigation";
 import { useQuestions } from "@/store/questionStore";
+import { useTestDetails } from "@/store/testDetailsStore";
 
 export default function PendingQuizzes() {
     const [pendingQuizzes, setPendingQuizzes] = useState([]);
     const router=useRouter();
     const setLoading=useLoader((state)=>state.setLoading);
     const setQuestions=useQuestions((state)=>state.setQuestions);
+    const setTestDetails=useTestDetails((state)=>state.setTestDetails);
     useEffect(() => {
         axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/pending`, { withCredentials: true })
         .then((res)=>{
@@ -22,7 +24,7 @@ export default function PendingQuizzes() {
         })
     }, []);
 
-    const startAttempt=(quizTemplateId)=>{
+    const startAttempt=(quizTemplateId, quiz)=>{
         setLoading(true);
         axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/attempt`, { quizTemplateId}, { withCredentials: true })
             .then((res) => {
@@ -30,7 +32,7 @@ export default function PendingQuizzes() {
                 const attemptId = res.data.quizAttempt._id;
                 const questions=res.data.questions.map((q)=>({...q, status: "notAttempted"}))
                 setQuestions(questions);
-
+                setTestDetails(quiz);
                 router.push(`/quiz/${quizTemplateId}/test/${attemptId}/questions/1`);
             })
             .catch((err) => {

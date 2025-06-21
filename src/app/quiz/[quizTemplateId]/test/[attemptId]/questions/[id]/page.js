@@ -89,8 +89,7 @@ export default function Quiz() {
     }
 
   return (
-    <div className='lg:max-w-4xl mx-auto px-5 mt-5'>
-        <Navbar/>
+    
         <div className='flex justify-center lg:mt-15 mt-10 gap-2 border-2 border-gray-400 shadow-xl/20 h-[32rem]'>
             
             <div className='flex-2 p-4 sm:p-8'>
@@ -114,7 +113,6 @@ export default function Quiz() {
                      <Button onClick={saveAndNext}
                      >Save and next {`->`}</Button>
 
-            {/* {(selectedOptions?.length!=0 && <Button  variant="link" size="sm" onClick={()=>{setSelectedOptions([])}}>Clear response</Button>)} */}
                     
                 </div>
             </div>
@@ -131,6 +129,6 @@ export default function Quiz() {
                 />
             </div>
         </div>
-    </div>
+    
   )
 }

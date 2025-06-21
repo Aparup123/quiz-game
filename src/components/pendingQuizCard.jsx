@@ -17,7 +17,7 @@ export default function PendingQuizCard({ quiz, startAttempt }) {
             </ul>
         </CardContent>
         <CardFooter className="inline-block">
-            <CardAction ><Button className="float-right" onClick={()=>startAttempt(quiz._id)}>Start</Button></CardAction>
+            <CardAction ><Button className="float-right" onClick={()=>startAttempt(quiz._id, quiz)}>Start</Button></CardAction>
         </CardFooter>
     </Card>
     )

@@ -7,10 +7,13 @@ import { Loader } from 'lucide-react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { useResults } from '@/store/resultStore'
+import { useLoader } from '@/store/loadingStore'
 {/* <td><Button variant="link">Evaluate</Button></td> */ }
 {/* <td><Button variant="link">View Details</Button></td> */ }
 export default function ResultList({ quizTemplateId }) {
     const [loading, setLoading] = useState(false);
+    const isLoading = useLoader((state) => state.loading);
+    const setIsLoading = useLoader((state) => state.setLoading);
     const [attempts, setAttempts] = useState([]);
     const router = useRouter()
     const setResults = useResults((state) => state.setResults);

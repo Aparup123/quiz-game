@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import ResultList from './resultList';
 
-export default function AttemptCard({ attempt }) {
-    const { quizTemplate } = attempt;
+export default function AttemptCard({ attempt , startAttempt }) {
+    const quizTemplate = attempt.quizTemplate;
     return (
         <Card className="flex flex-col justify-center gap-1">
             <CardHeader>
@@ -23,7 +23,7 @@ export default function AttemptCard({ attempt }) {
             </CardContent>
             <CardFooter >
                 <CardAction className="flex justify-between gap-2 flex-wrap">
-                    <Button variant="link">Attempt Again</Button>
+                    <Button variant="link" onClick={()=>startAttempt(attempt._id)}>Attempt Again</Button>
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button >View results</Button>
