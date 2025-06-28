@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 export default function PendingQuizCard({ quiz, startAttempt }) {
     return (<Card className="flex flex-col justify-center gap-1">
-        <CardHeader>
+        <CardHeader className="border-b-2 border-gray-300">
             <CardTitle>{quiz.topic}</CardTitle>
         </CardHeader>
         <CardContent>

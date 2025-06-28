@@ -13,7 +13,6 @@ export default function DashboardLayout({ children }) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarTrigger />
-      
         <div className='p-4 w-full'>
         {loading?<Loader/>:
           <>{children}</>

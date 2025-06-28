@@ -63,7 +63,7 @@ export const AppSidebar = () => {
 
     return (
         <Sidebar>
-            <SidebarHeader><h1 className='text-2xl font-bold'>LOGO</h1></SidebarHeader>
+            <SidebarHeader><h1 className='text-2xl font-bold'>QUIZARD</h1></SidebarHeader>
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel>Application</SidebarGroupLabel>

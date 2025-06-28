@@ -14,7 +14,7 @@ import { useLoader } from '@/store/loadingStore'
 import Loader from '@/components/loader'
 import { useRouter } from 'next/navigation';
 export default function CreateGame() {
-  const setLoading=useLoader((state)=>state.setLoading)
+  const [loading, setLoading]=useState(false);
   const router=useRouter()
   const formSchema=z.object({
     topic:z.string().nonempty(),
@@ -58,6 +58,10 @@ export default function CreateGame() {
     .finally(()=>{
       setLoading(false)
     })
+  }
+
+  if (loading){
+      return <Loader/>;
   }
 
   return (

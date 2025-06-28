@@ -3,20 +3,18 @@ import { Button } from './ui/button'
 import { DialogHeader } from './ui/dialog'
 import { DialogTitle } from '@radix-ui/react-dialog'
 import axios from 'axios'
-import { Loader } from 'lucide-react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import { useResults } from '@/store/resultStore'
 import { useLoader } from '@/store/loadingStore'
+import AttemptResultRow from "@/components/AttemptResultRow";
+import Loader from "@/components/loader";
 {/* <td><Button variant="link">Evaluate</Button></td> */ }
 {/* <td><Button variant="link">View Details</Button></td> */ }
 export default function ResultList({ quizTemplateId }) {
     const [loading, setLoading] = useState(false);
-    const isLoading = useLoader((state) => state.loading);
-    const setIsLoading = useLoader((state) => state.setLoading);
     const [attempts, setAttempts] = useState([]);
-    const router = useRouter()
-    const setResults = useResults((state) => state.setResults);
+
 
     useEffect(() => {
         setLoading(true);
@@ -35,43 +33,10 @@ export default function ResultList({ quizTemplateId }) {
         })
     },[]);
 
-    const evaluateResult = (attemptId) => {    
-        setLoading(true);
-        axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/evaluate/${attemptId}`, { withCredentials: true })
-        .then((res) => {
-            console.log("Evaluation successful:", res.data);
-            setAttempts((prevAttempts) => 
-                prevAttempts.map(attempt => 
-                    attempt._id === attemptId ? res.data.attempt : attempt
-                )
-            );
-            toast.success("Quiz evaluated successfully!");
-        })
-        .catch((err) => {   
-            console.error("Error evaluating quiz:", err);
-            toast.error("Error evaluating quiz. Please try again.");
-        })
-        .finally(() => {
-            setLoading(false);
-        })
-    }
 
-    // Method to fetch detailed result of an attempt
-    const viewDetailedResult = (attemptId) => {
-        axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/quiz/result/${attemptId}`, { withCredentials: true })
-        .then((res) => {
-            console.log("Detailed result fetched:", res.data);
-            setResults(res.data.attempt.results);
-            // Navigate to the detailed result page
-            router.push(`/quiz/${quizTemplateId}/result/${attemptId}/questions/1`);
-        })
-        .catch((err) => {
-            console.error("Error fetching detailed result:", err);
-            toast.error("Error fetching detailed result. Please try again.");
-        })
-        .finally(() => {
-            setLoading(false);
-        });
+
+    if(loading){
+        return <Loader/>;
     }
 
         return (
@@ -94,27 +59,13 @@ export default function ResultList({ quizTemplateId }) {
                         </tr>
                     </thead>
                     {loading ?
-                        <Loader /> :
+                        <Loader/> :
                         
                         <tbody className="text-center">
                         {
                             attempts.map((attempt) => {
-                                const evaluated= attempt.status === "evaluated";
                                 return (
-                                
-                                    <tr key={attempt._id}>
-                                        <td>{attempt.attemptNumber}</td>
-                                        <td>{evaluated?`${attempt.score.correctQuestions}/${attempt.score.totalQuestions}`:"-"}</td>
-                                        <td>{0}</td>
-                                        <td>{evaluated?`${attempt.score.obtained}/${attempt.score.total}`:"-"}</td>
-                                        <td>{evaluated?attempt.score.percentage:"-"}</td>
-                                        <td>
-                                            {evaluated ? 
-                                                <Button variant="link" onClick={()=>viewDetailedResult(attempt._id)}>View Details</Button> : 
-                                                <Button variant="link" onClick={()=>evaluateResult(attempt._id)}>Evaluate</Button>
-                                            }
-                                        </td>
-                                    </tr>
+                                        <AttemptResultRow key={attempt._id} quiztemplateId={quizTemplateId} attempt={attempt} setAttempts={setAttempts}/>
                                 )})
                         }
                             

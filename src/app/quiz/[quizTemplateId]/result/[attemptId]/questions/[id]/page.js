@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useResults } from '@/store/resultStore';
 import ResultQuestion from '@/components/resultQuestion';
 import ResultNavigator from '@/components/resultNavigator';
+import Loader from "@/components/loader";
 
 export default function Quiz() {
     const router=useRouter()
@@ -21,15 +22,15 @@ export default function Quiz() {
     const results=useResults((state)=>state.results);
     const [selectedOptions, setSelectedOptions]=useState([])
     const [result, setResult]=useState({})
-    const [isLoading, setIsLoading]=useState(true)
+    const [loading, setLoading]=useState(false);
     useEffect(() => {
         console.log("currentQuestion", currentQuestion);
         console.log("questions", results);
-        setIsLoading(true)
+        setLoading(true);
         if (results.length) {
             const foundResult = results.find((r) => r.order == currentQuestion);
             setResult(foundResult || {});
-            setIsLoading(false)
+            setLoading(false)
         }
     }, [currentQuestion, results])
     
@@ -38,21 +39,21 @@ export default function Quiz() {
         setSelectedOptions(result?.selectedOptions||[]);
     }, [result])
 
-    if (isLoading || !results.length) {
+    if (loading || !results.length) {
         return (
-            <div className="h-screen flex items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin" />
-            </div>
+            <Loader/>
         )
     }
     
 
-    const saveAndNext=async()=>{
+    const next=async()=>{
+        setLoading(true)
             if(currentQuestion==results.length){
                 router.push(`/quiz/${quizId}/result/${params.attemptId}/questions/1`)
             }else{
                 router.push(`/quiz/${quizId}/result/${params.attemptId}/questions/${currentQuestion + 1}`)
             }
+        setLoading(false)
     }
 
 
@@ -79,7 +80,7 @@ export default function Quiz() {
 
             
                     
-                     <Button onClick={saveAndNext}
+                     <Button onClick={next}
                      >next {`->`}</Button>
 
             {/* {(selectedOptions?.length!=0 && <Button  variant="link" size="sm" onClick={()=>{setSelectedOptions([])}}>Clear response</Button>)} */}

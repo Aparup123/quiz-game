@@ -9,6 +9,7 @@ import { useParams, useRouter } from 'next/navigation';
 import {useEffect, useState } from 'react'
 import { toast } from 'sonner';
 import axios from 'axios';
+import Loader from "@/components/loader";
 
 export default function Quiz() {
     const router=useRouter()
@@ -21,13 +22,15 @@ export default function Quiz() {
     const [selectedOptions, setSelectedOptions]=useState([])
     const [question, setQuestion]=useState({})
     const [isLoading, setIsLoading]=useState(true)
+    const [loading, setLoading]=useState(false);
     useEffect(() => {
+        setLoading(true)
         console.log("currentQuestion", currentQuestion);
         console.log("questions", questions);
         setIsLoading(true)
         if (questions.length) {
             setQuestion(questions.find((q) => q.order == currentQuestion))
-            setIsLoading(false)
+            setLoading(false)
         }
     }, [currentQuestion, questions])
     
@@ -36,17 +39,11 @@ export default function Quiz() {
         setSelectedOptions(question?.selectedOptions||[]);
     }, [question])
 
-    if (isLoading || !questions.length || !question) {
-        return (
-            <div className="h-screen flex items-center justify-center">
-                <Loader2 className="h-8 w-8 animate-spin" />
-            </div>
-        )
-    }
-    
+
+
 
     const saveAndNext=async()=>{
-        setIsLoading(true)
+        setLoading(true)
         try {
                 await updateOptions(currentQuestion, selectedOptions)
                 console.log(question);
@@ -62,13 +59,14 @@ export default function Quiz() {
                 router.push(`/quiz/${quizId}/test/${params.attemptId}/questions/${currentQuestion + 1}`)
             }
         } finally {
-            setIsLoading(false)
+            setLoading(false)
         }
     }
 
 
+
     const submitResponse=()=>{
-        setIsLoading(true)
+        setLoading(true)
         const responses=questions.filter((q)=>q.status=="attempted").map((q) => ({
             order: q.order,
             selectedOptions: q.selectedOptions,
@@ -86,8 +84,17 @@ export default function Quiz() {
             console.error(err);
             toast.error("Error submitting quiz. Please try again.")
         })
+        .finally(()=>{
+            setLoading(false)
+        })
+
     }
 
+    if (loading || !questions.length || !question) {
+        return (
+            <Loader/>
+        )
+    }
   return (
     
         <div className='flex justify-center lg:mt-15 mt-10 gap-2 border-2 border-gray-400 shadow-xl/20 h-[32rem]'>
