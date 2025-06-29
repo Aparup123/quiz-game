@@ -40,17 +40,17 @@ export default function ResultList({ quizTemplateId }) {
     }
 
         return (
-            <div className='w-full '>
+            <div className='w-full'>
                 <DialogHeader className="w-full">
                     <DialogTitle className='text-lg font-bold m-2 '>
                        Quiz Results
                     </DialogTitle>
                 </DialogHeader>
 
-                <table className='h-fit result-table w-full'>
-                    <thead>
-                        <tr>
-                            <th>Attempt no</th>
+                <table className='h-fit result-table rounded-lg w-full'>
+                    <thead >
+                        <tr className="rounded-t-md p-2  px-4 bg-gradient-to-r from-violet-300 to-indigo-200 font-medium text-text-primary backdrop-blur-md">
+                            <th >Attempt no</th>
                             <th>Correct questions</th>
                             <th>Time taken</th>
                             <th>Score</th>
@@ -61,7 +61,7 @@ export default function ResultList({ quizTemplateId }) {
                     {loading ?
                         <Loader/> :
                         
-                        <tbody className="text-center">
+                        <tbody className="text-center bg-gray-50">
                         {
                             attempts.map((attempt) => {
                                 return (

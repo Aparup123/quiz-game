@@ -13,6 +13,7 @@ import axios from 'axios'
 import { useLoader } from '@/store/loadingStore'
 import Loader from '@/components/loader'
 import { useRouter } from 'next/navigation';
+import {MdNotStarted} from "react-icons/md";
 export default function CreateGame() {
   const [loading, setLoading]=useState(false);
   const router=useRouter()
@@ -65,12 +66,12 @@ export default function CreateGame() {
   }
 
   return (
-    <div className='container lg:max-w-4xl mx-auto px-10 overflow-hidden pt-5 md:text-4xl'>
-      <h1>Select Topic and options</h1>
-      <div >
+    <div className='container lg:max-w-4xl mx-auto  overflow-hidden '>
+      <h1 className="text-xl px-5 p-2 rounded-t-md bg-gradient-to-r from-violet-300 to-indigo-200 font-medium text-text-primary">Select Topic and options</h1>
+      <div className="bg-gray-50 p-5 rounded-b-md">
       
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(createGame)} className='grid md:grid-cols-2 gap-5 mt-5 lg:mt-10' >
+          <form onSubmit={form.handleSubmit(createGame)} className='grid md:grid-cols-2 gap-5  ' >
             <FormField
               control={form.control}
               name="topic"
@@ -166,7 +167,7 @@ export default function CreateGame() {
                 </FormItem>
               }
             />
-            <Button type="submit" className="md:col-span-2">Start {"->"}</Button>
+            <Button type="submit" className="md:col-span-2 hover:transform hover:translate-x-1 bg-gradient-to-r from-violet-300 to-indigo-200 text-text-primary text-md">Start <MdNotStarted/></Button>
 
         
           </form>

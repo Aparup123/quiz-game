@@ -41,6 +41,7 @@ input[type='radio'] {
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  --color-primary-dark: #6c5c9e;
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -132,15 +133,18 @@ input[type='radio'] {
 
 /* HTML: <div class="loader"></div> */
 
-.result-table{
-  @apply border-2 
-  
+
+
+/*.result-table th{*/
+/*  @apply bg-purple-100*/
+/*}*/
+
+.result-table td{
+  @apply p-2 border-b border-border
 }
 
 .result-table th{
-  @apply bg-purple-100
+  @apply p-2
 }
 
-.result-table th, td{
-  @apply p-2 border-2
-}
+

@@ -60,10 +60,13 @@ export default function AttemptedQuizzes() {
 
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6">
-      {attempts.map((a) => {
-        return <AttemptCard key={a._id} attempt={a} startAttempt={startAttempt}/>
-        })}
-    </div>
+      <div>
+          <h1 className='text-xl font-medium inline-flex items-center gap-2 border-text-primary'>ATTEMPTED QUIZZES</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4">
+          {attempts.map((a) => {
+            return <AttemptCard key={a._id} attempt={a} startAttempt={startAttempt}/>
+            })}
+        </div>
+      </div>
   )
 }

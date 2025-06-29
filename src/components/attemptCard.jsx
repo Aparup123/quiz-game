@@ -3,30 +3,59 @@ import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader,
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from './ui/dialog';
 import ResultList from './resultList';
+import {TbReportAnalytics} from "react-icons/tb";
+import {IoReload} from "react-icons/io5";
+
+
 
 export default function AttemptCard({ attempt , startAttempt }) {
     const quizTemplate = attempt.quizTemplate;
+
+    const quizData=[
+        {
+            label:"No of questions: ",
+            value:quizTemplate.numberOfQuestions,
+        },
+        {
+            label:"Total marks: ",
+            value:quizTemplate.totalPoints,
+        },
+        {
+            label:"Duration: ",
+            value:quizTemplate.duration,
+        },
+        {
+            label:"Difficulty: ",
+            value:quizTemplate.difficulty,
+        },
+        {
+            label:"Type: ",
+            value:quizTemplate.type,
+        },
+        {
+            label:"Times attempted: ",
+            value:attempt.numberOfAttempts,
+        }
+    ];
+
     return (
-        <Card className="flex flex-col justify-center gap-1">
-            <CardHeader>
-                <CardTitle>{quizTemplate.topic}</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <ul>
-                    <li><span>No of questions: </span><span>{quizTemplate.numberOfQuestions}</span></li>
-                    <li><span>Total marks: </span><span>{quizTemplate.totalPoints}</span></li>
-                    <li><span>Duration: </span><span>{quizTemplate.duration}</span></li>
-                    <li><span>Difficulty: </span><span>{quizTemplate.difficulty}</span></li>
-                    <li><span>Type: </span><span>{quizTemplate.type}</span></li>
-                    <li><span>Times attempted: </span><span>{attempt.numberOfAttempts}</span></li>
+        <div className=" rounded-md flex flex-col justify-center bg-gray-50 shadow-md">
+            <div className=" rounded-t-md p-2  px-4 bg-gradient-to-r from-violet-300 to-indigo-200 font-medium text-text-primary backdrop-blur-md">
+                <h3>{quizTemplate.topic}</h3>
+            </div>
+            <div className="text-sm ">
+                <ul>{
+                    quizData.map((q,idx)=>{
+                        return <li className="border-b p-2 px-4 flex justify-between"><span className="font-medium">{q.label} </span><span>{q.value}</span></li>
+                    })
+                }
                 </ul>
-            </CardContent>
-            <CardFooter >
-                <CardAction className="flex justify-between gap-2 flex-wrap">
-                    <Button variant="link" onClick={()=>startAttempt(attempt._id)}>Attempt Again</Button>
+            </div>
+            <div className="px-3 py-2 border-b rounded-x-md rounded-b-md flex justify-between">
+                    <Button variant="link" onClick={()=>startAttempt(attempt._id)} className="flex items-stretch"><IoReload/> Attempt again</Button>
                     <Dialog>
                         <DialogTrigger asChild>
-                            <Button >View results</Button>
+                            <Button className="text-text-primary flex items-center hover:transform hover:translate-x-1 bg-gradient-to-r from-violet-300 to-indigo-200">View results<TbReportAnalytics/></Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-7xl m-2 h-[80vh] overflow-y-auto px-8 py-10">
                             <ResultList
@@ -34,8 +63,7 @@ export default function AttemptCard({ attempt , startAttempt }) {
                             />
                         </DialogContent>
                     </Dialog>
-                </CardAction>
-            </CardFooter>
-        </Card>
+            </div>
+        </div>
     )
 }

@@ -8,6 +8,8 @@ import { useQuestions } from "@/store/questionStore";
 import { useTestDetails } from "@/store/testDetailsStore";
 import Loader from "@/components/loader";
 import {PiHandWaving} from "react-icons/pi";
+import {FaTimesCircle} from "react-icons/fa";
+import {FaHourglassStart} from "react-icons/fa6";
 
 export default function PendingQuizzes() {
     const [pendingQuizzes, setPendingQuizzes] = useState([]);
@@ -65,8 +67,8 @@ export default function PendingQuizzes() {
     return (
 
         <div>
-            <h1 className='text-2xl'>Pending Quizzes</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-6">
+            <h1 className='text-xl font-medium inline-flex items-center gap-2   border-text-primary'>PENDING QUIZZES</h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 my-4">
                 {pendingQuizzes?.map((quiz, idx) => <PendingQuizCard key={idx} quiz={quiz} startAttempt={startAttempt}/>)}
             </div>
         </div>
