@@ -4,7 +4,6 @@ import Navigator from '@/components/navigator';
 import Question from '@/components/question';
 import { Button } from '@/components/ui/button';
 import { useQuestions } from '@/store/questionStore';
-import { ImportIcon, Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import {useEffect, useState } from 'react'
 import { toast } from 'sonner';
@@ -21,13 +20,11 @@ export default function Quiz() {
     const updateStatus=useQuestions((state)=>state.updateStatus)
     const [selectedOptions, setSelectedOptions]=useState([])
     const [question, setQuestion]=useState({})
-    const [isLoading, setIsLoading]=useState(true)
     const [loading, setLoading]=useState(false);
     useEffect(() => {
         setLoading(true)
         console.log("currentQuestion", currentQuestion);
         console.log("questions", questions);
-        setIsLoading(true)
         if (questions.length) {
             setQuestion(questions.find((q) => q.order == currentQuestion))
             setLoading(false)

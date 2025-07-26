@@ -46,12 +46,12 @@ export default function AttemptCard({ attempt , startAttempt }) {
             <div className="text-sm ">
                 <ul>{
                     quizData.map((q,idx)=>{
-                        return <li className="border-b p-2 px-4 flex justify-between"><span className="font-medium">{q.label} </span><span>{q.value}</span></li>
+                        return <li key={idx} className="border-b p-2 px-4 flex justify-between"><span className="font-medium">{q.label} </span><span>{q.value}</span></li>
                     })
                 }
                 </ul>
             </div>
-            <div className="px-3 py-2 border-b rounded-x-md rounded-b-md flex justify-between">
+            <div className="px-3 py-2 border-b rounded-x-md rounded-b-md flex flex-wrap items-center justify-between">
                     <Button variant="link" onClick={()=>startAttempt(attempt._id)} className="flex items-stretch"><IoReload/> Attempt again</Button>
                     <Dialog>
                         <DialogTrigger asChild>

@@ -1,14 +1,8 @@
 "use client"
 import Navbar from '@/components/navbar'
-import Navigator from '@/components/navigator';
-import Question from '@/components/question';
 import { Button } from '@/components/ui/button';
-import { useQuestions } from '@/store/questionStore';
-import { ImportIcon, Loader2 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import {useEffect, useState } from 'react'
-import { toast } from 'sonner';
-import axios from 'axios';
 import { useResults } from '@/store/resultStore';
 import ResultQuestion from '@/components/resultQuestion';
 import ResultNavigator from '@/components/resultNavigator';

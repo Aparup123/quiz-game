@@ -3,8 +3,6 @@ import { AppSidebar } from '@/components/appSidebar'
 import Loader from '@/components/loader'
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar'
 import { useLoader } from '@/store/loadingStore'
-import { Sidebar } from 'lucide-react'
-import React, { Suspense } from 'react'
 
 export default function DashboardLayout({ children }) {
   const loading=useLoader((state) => state.loading)

@@ -49,7 +49,7 @@ export const AppSidebar = () => {
         try{
             e.preventDefault();
             console.log(`${process.env.NEXT_PUBLIC_BACKEND_URL}`);
-            await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/users/signin`, {
+            await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/signin`, {
                 email:e.target.email.value,
                 password:e.target.password.value
             }, {withCredentials: true});
